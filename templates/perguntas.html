@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Todas as Perguntas{% endblock %}
+
+{% block content %}
+<h1>📋 Todas as Perguntas e Respostas</h1>
+
+<div class="search-bar">
+    <input type="text" id="search-local" placeholder="🔍 Buscar perguntas..." 
+           onkeyup="filtrarPerguntas()">
+</div>
+
+<div class="filtros">
+    <a href="/perguntas" class="filtro-btn {% if not categoria_atual %}active{% endif %}">Todas</a>
+    {% for cat, count in categorias %}
+    <a href="/perguntas?categoria={{ cat }}" class="filtro-btn {% if categoria_atual == cat %}active{% endif %}">
+        {{ cat }} ({{ count }})
+    </a>
+    {% endfor %}
+</div>
+
+<div id="perguntas-list">
+    {% for p in perguntas.items %}
+    <div class="card pergunta-item" data-titulo="{{ p.titulo|lower }}" data-pergunta="{{ p.pergunta|lower }}" data-resposta="{{ p.resposta|lower }}">
+        <h3>{{ p.titulo }}</h3>
+        <div class="pergunta-texto"><strong>❓:</strong> {{ p.pergunta }}</div>
+        <div class="resposta-texto"><strong>✅:</strong> {{ p.resposta[:200] }}{% if p.resposta|length > 200 %}...{% endif %}</div>
+        <div class="meta">
+            <span class="categoria">{{ p.categoria }}</span>
+            <a href="/pergunta/{{ p.id }}" class="ler-mais">Ler resposta completa →</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="paginacao">
+    {% if perguntas.has_prev %}
+        <a href="/perguntas?page={{ perguntas.prev_num }}{% if categoria_atual %}&categoria={{ categoria_atual }}{% endif %}{% if search %}&search={{ search }}{% endif %}">◀ Anterior</a>
+    {% endif %}
+    
+    <span>Página {{ perguntas.page }} de {{ perguntas.pages }}</span>
+    
+    {% if perguntas.has_next %}
+        <a href="/perguntas?page={{ perguntas.next_num }}{% if categoria_atual %}&categoria={{ categoria_atual }}{% endif %}{% if search %}&search={{ search }}{% endif %}">Próxima ▶</a>
+    {% endif %}
+</div>
+
+<script>
+function filtrarPerguntas() {
+    let termo = document.getElementById('search-local').value.toLowerCase();
+    let cards = document.getElementsByClassName('pergunta-item');
+    
+    for (let card of cards) {
+        let titulo = card.getAttribute('data-titulo') || '';
+        let pergunta = card.getAttribute('data-pergunta') || '';
+        let resposta = card.getAttribute('data-resposta') || '';
+        
+        if (titulo.includes(termo) || pergunta.includes(termo) || resposta.includes(termo)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    }
+}
+</script>
+
+<style>
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.filtro-btn {
+    background: #e8e4d9;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #0a202f;
+    font-size: 0.85rem;
+}
+.filtro-btn.active {
+    background: #0a202f;
+    color: white;
+}
+.resposta-texto {
+    margin-top: 0.5rem;
+    color: #444;
+}
+</style>
+{% endblock %}
