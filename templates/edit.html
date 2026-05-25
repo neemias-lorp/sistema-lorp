@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Pergunta{% endblock %}
+
+{% block content %}
+<h1>✏️ Editar Pergunta</h1>
+
+<form method="POST" class="form">
+    <label>Título:</label>
+    <input type="text" name="titulo" value="{{ pergunta.titulo }}" required>
+    
+    <label>Pergunta:</label>
+    <textarea name="pergunta" rows="3" required>{{ pergunta.pergunta }}</textarea>
+    
+    <label>Resposta:</label>
+    <textarea name="resposta" rows="8" required>{{ pergunta.resposta }}</textarea>
+    
+    <label>Categoria:</label>
+    <select name="categoria">
+        <option {% if pergunta.categoria == 'Teoria' %}selected{% endif %}>Teoria</option>
+        <option {% if pergunta.categoria == 'Descobertas' %}selected{% endif %}>Descobertas</option>
+        <option {% if pergunta.categoria == 'Validação' %}selected{% endif %}>Validação</option>
+        <option {% if pergunta.categoria == 'Engenharia' %}selected{% endif %}>Engenharia</option>
+        <option {% if pergunta.categoria == 'Paleografia' %}selected{% endif %}>Paleografia</option>
+    </select>
+    
+    <label>Ordem:</label>
+    <input type="number" name="ordem" value="{{ pergunta.ordem }}">
+    
+    <label>
+        <input type="checkbox" name="destaque" {% if pergunta.destaque %}checked{% endif %}> Destacar
+    </label>
+    
+    <button type="submit" class="btn-primary">Atualizar</button>
+    <a href="/admin" class="btn-secondary">Cancelar</a>
+</form>
+
+<style>
+.form label {
+    display: block;
+    margin: 1rem 0 0.3rem;
+    font-weight: bold;
+}
+.form input, .form textarea, .form select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+}
+</style>
+{% endblock %}
