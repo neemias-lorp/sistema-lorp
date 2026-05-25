@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{{ pergunta.titulo }}{% endblock %}
+
+{% block content %}
+<div class="pergunta-detalhe">
+    <div class="card">
+        <h1>{{ pergunta.titulo }}</h1>
+        <div class="meta">
+            <span class="categoria">{{ pergunta.categoria }}</span>
+            <span>📅 {{ pergunta.data_criacao.strftime('%d/%m/%Y') }}</span>
+            <span>👁️ {{ pergunta.views }} visualizações</span>
+        </div>
+        
+        <div class="pergunta-box">
+            <h3>❓ Pergunta</h3>
+            <p>{{ pergunta.pergunta }}</p>
+        </div>
+        
+        <div class="resposta-box">
+            <h3>✅ Resposta</h3>
+            <div>{{ pergunta.resposta|replace('\n', '<br>')|safe }}</div>
+        </div>
+        
+        <div class="botoes">
+            <button onclick="window.print()" class="btn-secondary">🖨️ Imprimir</button>
+            <button onclick="copiarLink()" class="btn-secondary">📋 Copiar link</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function copiarLink() {
+    navigator.clipboard.writeText(window.location.href);
+    alert('✅ Link copiado!');
+}
+</script>
+
+<style>
+.pergunta-box, .resposta-box {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f6f2;
+    border-radius: 12px;
+}
+.pergunta-box h3, .resposta-box h3 {
+    color: #c9a03d;
+    margin-bottom: 0.5rem;
+}
+.botoes {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+</style>
+{% endblock %}
