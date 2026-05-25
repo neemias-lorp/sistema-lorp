@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Galeria de Imagens{% endblock %}
+
+{% block content %}
+<h1>🖼️ Galeria do Sistema LORP</h1>
+
+<div class="galeria-completa">
+    <div class="galeria-grid">
+        {% for img in imagens %}
+        <div class="galeria-item">
+            <img src="/static/uploads/{{ img.filename }}" alt="{{ img.titulo }}">
+            <div class="galeria-info">
+                <strong>{{ img.titulo }}</strong>
+                <p>{{ img.descricao }}</p>
+                <small>{{ img.data_upload.strftime('%d/%m/%Y') }}</small>
+                <span class="categoria-img">{{ img.categoria }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+.galeria-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+.galeria-item:hover {
+    transform: translateY(-4px);
+}
+.galeria-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.galeria-info {
+    padding: 0.8rem;
+}
+.galeria-info strong {
+    display: block;
+    color: #0a202f;
+}
+.galeria-info p {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0.3rem 0;
+}
+.galeria-info small {
+    font-size: 0.7rem;
+    color: #999;
+}
+.categoria-img {
+    display: inline-block;
+    background: #e8e4d9;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+}
+</style>
+{% endblock %}
