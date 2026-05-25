@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ descoberta.titulo }}{% endblock %}
+
+{% block content %}
+<div class="descoberta-detalhe">
+    <div class="card">
+        <h1>{{ descoberta.icone }} {{ descoberta.titulo }}</h1>
+        <div class="meta">
+            <span class="categoria">{{ descoberta.categoria }}</span>
+            <span>📅 {{ descoberta.data_registro.strftime('%d/%m/%Y') }}</span>
+        </div>
+        
+        <div class="descricao-box">
+            <h3>📝 Descrição</h3>
+            <p>{{ descoberta.descricao }}</p>
+        </div>
+        
+        {% if descoberta.protocolo %}
+        <div class="protocolo-box">
+            <h3>📋 Protocolo</h3>
+            <p>{{ descoberta.protocolo }}</p>
+        </div>
+        {% endif %}
+        
+        {% if descoberta.previsibilidade %}
+        <div class="previsibilidade-box">
+            <h3>📊 Índice de Previsibilidade</h3>
+            <p>{{ descoberta.previsibilidade }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="botoes">
+            <button onclick="window.print()" class="btn-secondary">🖨️ Imprimir</button>
+            <button onclick="copiarLink()" class="btn-secondary">📋 Copiar link</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function copiarLink() {
+    navigator.clipboard.writeText(window.location.href);
+    alert('✅ Link copiado!');
+}
+</script>
+
+<style>
+.descricao-box, .protocolo-box, .previsibilidade-box {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f6f2;
+    border-radius: 12px;
+}
+.descricao-box h3, .protocolo-box h3, .previsibilidade-box h3 {
+    color: #c9a03d;
+    margin-bottom: 0.5rem;
+}
+.botoes {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+</style>
+{% endblock %}
