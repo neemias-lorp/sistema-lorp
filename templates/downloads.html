@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Downloads - Dados Abertos LORP{% endblock %}
+
+{% block content %}
+<h1>📥 Downloads - Dados Abertos LORP</h1>
+
+<div class="aviso-downloads">
+    <p>🌍 Todo o conteúdo abaixo é de domínio público. Use, compartilhe, cite.</p>
+    <p>🔬 Os dados brutos e scripts permitem replicação independente das descobertas.</p>
+</div>
+
+<div class="downloads-grid">
+    <div class="download-categoria">
+        <h3>📊 Matrizes e Dados Brutos</h3>
+        <ul>
+            <li><a href="/static/downloads/matriz_voynich.csv">📈 Matriz Voynich (CSV)</a> - 77,8% de previsibilidade</li>
+            <li><a href="/static/downloads/indus_156selos.csv">🏺 Selos Vale do Indo (CSV)</a> - 156 registros</li>
+            <li><a href="/static/downloads/linear_a_ocorrencias.json">📜 Linear A - Ocorrências (JSON)</a></li>
+            <li><a href="/static/downloads/rongorongo_mamari.csv">🗿 Rongorongo - Sequência Mamari (CSV)</a></li>
+        </ul>
+    </div>
+    
+    <div class="download-categoria">
+        <h3>🐍 Scripts e Códigos</h3>
+        <ul>
+            <li><a href="/static/downloads/automato_aaa_b.py">⚙️ Autômato AAA B (Python)</a></li>
+            <li><a href="/static/downloads/detector_v53.py">🛡️ Detector V53 (Python)</a></li>
+            <li><a href="/static/downloads/api_fastapi.py">🚀 API FastAPI (Python)</a></li>
+            <li><a href="/static/downloads/docker-compose.yml">🐳 Docker Compose</a></li>
+        </ul>
+    </div>
+    
+    <div class="download-categoria">
+        <h3>📄 Documentos e Relatórios</h3>
+        <ul>
+            <li><a href="/static/downloads/relatorio_v9.pdf">📘 Documento Final LORP V9 (PDF)</a></li>
+            <li><a href="/static/downloads/onto_algebra_lorp.pdf">📐 Onto-Álgebra LORP (PDF)</a></li>
+            <li><a href="/static/downloads/tratado_historico.pdf">📜 Tratado Histórico ASF-LORP-SER-I (PDF)</a></li>
+            <li><a href="/static/downloads/demonstracao_7_itens.pdf">📋 Documento de Demonstração (7 itens)</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="info-downloads">
+    <p>⚠️ Os arquivos de download serão adicionados gradualmente. Os links acima ficarão ativos quando os arquivos forem enviados para a pasta <code>static/downloads/</code>.</p>
+    <p>📧 Para solicitar acesso a dados adicionais, utilize o formulário de contato no rodapé.</p>
+</div>
+
+<style>
+.aviso-downloads {
+    background: #e8e4d9;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+.download-categoria {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.download-categoria h3 {
+    color: #0a202f;
+    border-left: 4px solid #c9a03d;
+    padding-left: 0.8rem;
+    margin-bottom: 1rem;
+}
+.download-categoria ul {
+    list-style: none;
+}
+.download-categoria li {
+    margin-bottom: 0.8rem;
+}
+.download-categoria a {
+    color: #0a202f;
+    text-decoration: none;
+}
+.download-categoria a:hover {
+    color: #c9a03d;
+    text-decoration: underline;
+}
+.info-downloads {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #f0f4f8;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+code {
+    background: #e8e4d9;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+</style>
+{% endblock %}
