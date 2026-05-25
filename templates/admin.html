@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<h1>🔧 Painel Administrativo LORP</h1>
+
+<div class="admin-actions">
+    <a href="/admin/pergunta/nova" class="btn-primary">➕ Nova Pergunta</a>
+</div>
+
+<h2>📝 Perguntas Existentes ({{ perguntas|length }})</h2>
+<table class="admin-table">
+    <thead>
+        <tr><th>Título</th><th>Categoria</th><th>Ordem</th><th>Destaque</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+        {% for p in perguntas %}
+        <tr>
+            <td>{{ p.titulo[:50] }}</td>
+            <td>{{ p.categoria }}</td>
+            <td>{{ p.ordem }}</td>
+            <td>{% if p.destaque %}⭐{% else %}-{% endif %}</td>
+            <td>
+                <a href="/admin/pergunta/editar/{{ p.id }}" class="btn-edit">✏️ Editar</a>
+                <a href="/admin/pergunta/excluir/{{ p.id }}" class="btn-delete" onclick="return confirm('Excluir permanentemente?')">🗑️ Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>🏆 Descobertas Registradas</h2>
+<form method="POST" action="/admin/descoberta/nova" class="form-inline">
+    <input type="text" name="titulo" placeholder="Título" required>
+    <textarea name="descricao" placeholder="Descrição" required></textarea>
+    <input type="text" name="protocolo" placeholder="Protocolo (opcional)">
+    <input type="text" name="previsibilidade" placeholder="Índice ex: 77,8%">
+    <select name="categoria">
+        <option>Paleografia</option>
+        <option>Validação</option>
+        <option>Teoria</option>
+        <option>Engenharia</option>
+    </select>
+    <button type="submit" class="btn-primary">Adicionar Descoberta</button>
+</form>
+
+<table class="admin-table">
+    <thead><tr><th>Título</th><th>Categoria</th><th>Ações</th></tr></thead>
+    <tbody>
+        {% for d in descobertas %}
+        <tr>
+            <td>{{ d.titulo }}</td>
+            <td>{{ d.categoria }}</td>
+            <td><a href="/admin/descoberta/excluir/{{ d.id }}" class="btn-delete" onclick="return confirm('Excluir?')">🗑️ Excluir</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>💬 Mensagens dos Visitantes</h2>
+<table class="admin-table">
+    <thead><tr><th>Data</th><th>Nome</th><th>Email</th><th>Mensagem</th><th>Status</th><th>Ação</th></tr></thead>
+    <tbody>
+        {% for msg in mensagens %}
+        <tr>
+            <td>{{ msg.data.strftime('%d/%m/%Y %H:%M') }}</td>
+            <td>{{ msg.nome }}</td>
+            <td>{{ msg.email }}</td>
+            <td>{{ msg.mensagem[:80] }}{% if msg.mensagem|length > 80 %}...{% endif %}</td>
+            <td>{% if msg.lida %}✅ Lida{% else %}🆕 Nova{% endif %}</td>
+            <td><a href="/admin/mensagem/marcar-lida/{{ msg.id }}" class="btn-edit">📌 Marcar lida</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>🖼️ Galeria de Imagens</h2>
+<form method="POST" action="/admin/upload" enctype="multipart/form-data" class="upload-form">
+    <input type="file" name="file" accept="image/*" required>
+    <input type="text" name="titulo" placeholder="Título da imagem">
+    <textarea name="descricao" placeholder="Descrição"></textarea>
+    <select name="categoria">
+        <option>glifos</option>
+        <option>diagramas</option>
+        <option>manuscritos</option>
+        <option>geral</option>
+    </select>
+    <button type="submit" class="btn-primary">📸 Enviar Imagem</button>
+</form>
+
+<div class="galeria-admin">
+    {% for img in imagens %}
+    <div class="galeria-item-admin">
+        <img src="/static/uploads/{{ img.filename }}" width="100">
+        <p>{{ img.titulo }}</p>
+        <a href="/admin/imagem/excluir/{{ img.id }}" class="btn-delete" onclick="return confirm('Excluir imagem?')">🗑️ Excluir</a>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.upload-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+.galeria-admin {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.galeria-item-admin {
+    text-align: center;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+.btn-edit {
+    background: #2c5f2d;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-right: 0.3rem;
+}
+.btn-delete {
+    background: #9e2a2a;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    text-decoration: none;
+}
+</style>
+{% endblock %}
