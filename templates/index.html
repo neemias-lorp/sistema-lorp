@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Início - Conhecimento Universal{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>🧬 SISTEMA LORP</h1>
+    <p class="subtitle">Método de Organização do Pensamento aplicado à Paleografia Estrutural, Linear A, Voynich e Escrita do Vale do Indo</p>
+    <p class="author"><strong>Autor:</strong> Neemias da Silva Ferreira</p>
+    
+    <div class="hero-buttons">
+        <a href="/perguntas" class="btn-primary">📖 Explorar Perguntas</a>
+        <a href="#teste" class="btn-secondary">⚙️ Testar Autômato</a>
+    </div>
+</div>
+
+<div class="search-bar">
+    <input type="text" id="search-global" placeholder="🔍 Buscar perguntas, respostas ou descobertas..." 
+           onkeyup="if(event.keyCode==13) buscarGlobal()">
+    <button onclick="buscarGlobal()">Buscar</button>
+</div>
+
+<div class="two-columns">
+    <div class="column">
+        <h2>📋 Perguntas em Destaque</h2>
+        {% for p in perguntas %}
+        <div class="card pergunta-card">
+            <h3>{{ p.titulo }}</h3>
+            <div class="pergunta-texto"><strong>❓:</strong> {{ p.pergunta[:150] }}{% if p.pergunta|length > 150 %}...{% endif %}</div>
+            <div class="meta">
+                <span class="categoria">{{ p.categoria }}</span>
+                <a href="/pergunta/{{ p.id }}" class="ler-mais">Ler resposta →</a>
+            </div>
+        </div>
+        {% endfor %}
+        <a href="/perguntas" class="ver-todas">Ver todas as perguntas →</a>
+    </div>
+    
+    <div class="column">
+        <h2>🏆 Descobertas LORP</h2>
+        {% for d in descobertas %}
+        <div class="card descoberta-card">
+            <h3>{{ d.icone }} {{ d.titulo }}</h3>
+            <p>{{ d.descricao[:120] }}{% if d.descricao|length > 120 %}...{% endif %}</p>
+            {% if d.protocolo %}
+                <div class="protocolo">📋 {{ d.protocolo }}</div>
+            {% endif %}
+            {% if d.previsibilidade %}
+                <div class="previsibilidade">📊 Índice: {{ d.previsibilidade }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="teste-automato" id="teste">
+    <h3>⚙️ Teste o Autômato AAA B</h3>
+    <p>Insira uma sequência de letras A e B (ex: A A A B)</p>
+    <div class="teste-input">
+        <input type="text" id="sequencia" placeholder="A A A B">
+        <button onclick="testarAutomato()">Executar Teste</button>
+    </div>
+    <div id="resultado-automato" class="resultado-area"></div>
+</div>
+
+<div class="galeria-preview">
+    <h2>🖼️ Galeria de Imagens</h2>
+    <div class="galeria-grid">
+        {% for img in imagens[:8] %}
+        <div class="galeria-item">
+            <img src="/static/uploads/{{ img.filename }}" alt="{{ img.titulo }}">
+            <span>{{ img.titulo[:30] }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="/galeria" class="ver-todas">Ver galeria completa →</a>
+</div>
+
+<script>
+function buscarGlobal() {
+    let termo = document.getElementById('search-global').value;
+    if (termo.length > 2) {
+        window.location.href = '/perguntas?search=' + encodeURIComponent(termo);
+    }
+}
+
+function testarAutomato() {
+    let seq = document.getElementById('sequencia').value.toUpperCase().split(' ');
+    fetch('/api/automato', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({sequencia: seq})
+    })
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('resultado-automato').innerHTML = `
+            <div class="resultado-sucesso">
+                <strong>✅ Resultado:</strong><br>
+                Estado final: <code>${data.estado_final}</code><br>
+                Previsibilidade: <code>${data.previsibilidade.toFixed(2)}%</code><br>
+                Transições: ${data.historico.length}
+            </div>
+        `;
+    })
+    .catch(err => {
+        document.getElementById('resultado-automato').innerHTML = '<div class="resultado-erro">❌ Erro ao testar. Use o formato: A A A B</div>';
+    });
+}
+</script>
+{% endblock %}
