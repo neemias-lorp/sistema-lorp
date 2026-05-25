@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Login Administrativo{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h1>🔐 Acesso Administrativo</h1>
+    <p>Sistema LORP - Área restrita</p>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Usuário" required>
+        <input type="password" name="password" placeholder="Senha" required>
+        <button type="submit" class="btn-primary">Entrar</button>
+    </form>
+    <p class="info" style="margin-top:1rem; font-size:0.8rem;">Usuário: <strong>admin</strong> | Senha: <strong>admin123</strong></p>
+    <p class="info" style="font-size:0.7rem;">Altere a senha após o primeiro acesso no banco de dados</p>
+</div>
+
+<style>
+.login-box {
+    max-width: 400px;
+    margin: 3rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+.login-box input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.login-box button {
+    width: 100%;
+}
+</style>
+{% endblock %}
