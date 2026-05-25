@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Categoria: {{ categoria }}{% endblock %}
+
+{% block content %}
+<h1>📁 Categoria: {{ categoria }}</h1>
+
+<div class="perguntas-categoria">
+    {% for p in perguntas %}
+    <div class="card pergunta-card">
+        <h3>{{ p.titulo }}</h3>
+        <div class="pergunta-texto"><strong>❓:</strong> {{ p.pergunta[:150] }}{% if p.pergunta|length > 150 %}...{% endif %}</div>
+        <div class="meta">
+            <span class="categoria">{{ p.categoria }}</span>
+            <a href="/pergunta/{{ p.id }}" class="ler-mais">Ler resposta completa →</a>
+        </div>
+    </div>
+    {% else %}
+    <p>Nenhuma pergunta encontrada nesta categoria.</p>
+    {% endfor %}
+</div>
+
+<div class="voltar">
+    <a href="/perguntas" class="btn-secondary">← Voltar para todas as perguntas</a>
+</div>
+
+<style>
+.perguntas-categoria {
+    margin-top: 1.5rem;
+}
+.voltar {
+    margin-top: 2rem;
+    text-align: center;
+}
+</style>
+{% endblock %}
